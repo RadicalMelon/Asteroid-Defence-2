@@ -4,7 +4,6 @@
 /*=================================================================================*/
 
 #include <vector>
-#include "BaseState.h"
 #include "Game.h"
 #include "Text.h"
 #include "Cannon.h"
@@ -13,7 +12,7 @@
 
 /*=================================================================================*/
 
-class TimedState : public BaseState
+class TimedState : public Game::BaseState
 {
 public:
     void initialize() override;

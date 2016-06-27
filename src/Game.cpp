@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "BaseState.h"
 
 /*=================================================================================*/
 
@@ -22,6 +21,7 @@ namespace Game
         std::map<std::string, SDL_Texture*> textures;
         std::map<std::string, SDL_Surface*> surfaces;
         std::map<std::string, Mix_Chunk*> sounds;
+        std::map<std::string, std::map<int, TTF_Font*>> fonts;
         std::default_random_engine engine;
     }
 
@@ -178,6 +178,16 @@ namespace Game
             std::cout << " Done." << std::endl;
         }
 
+        for (auto& font : fonts)
+        {
+            for (auto& font_it : font.second)
+            {
+                std::cout << "Unloading font, size " << font_it.first << ": " << font.first << "...";
+                TTF_CloseFont(font_it.second);
+                std::cout << " Done." << std::endl;
+            }
+        }
+
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
 
@@ -242,6 +252,25 @@ namespace Game
             std::cout << " Done." << std::endl;
         }
         return sounds[file_name];
+    }
+
+    /*=================================================================================*/
+
+    TTF_Font* getFont(const std::string& file_name, const int font_size)
+    {
+        if (fonts.find(file_name) == fonts.end() || fonts.find(file_name)->second.find(font_size) == fonts.find(file_name)->second.end())
+        {
+            std::cout << "Loading font, size " << font_size << ": " << file_name << "...";
+
+            fonts[file_name][font_size] = TTF_OpenFont(file_name.c_str(), font_size);
+            if (fonts[file_name][font_size] == nullptr)
+            {
+                throw Error::TTF;
+            }
+
+            std::cout << " Done." << std::endl;
+        }
+        return fonts[file_name][font_size];
     }
 
     /*=================================================================================*/

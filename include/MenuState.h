@@ -3,14 +3,13 @@
 
 /*=================================================================================*/
 
-#include "BaseState.h"
 #include "Game.h"
 #include "Text.h"
 #include "Button.h"
 
 /*=================================================================================*/
 
-class MenuState : public BaseState
+class MenuState : public Game::BaseState
 {
 public:
     void initialize() override;

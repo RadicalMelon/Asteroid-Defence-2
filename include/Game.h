@@ -21,6 +21,16 @@ class BaseState;
 
 namespace Game
 {
+    class BaseState
+    {
+    public:
+        virtual void initialize() = 0;
+        virtual void handleEvents() = 0;
+        virtual void update() = 0;
+        virtual void draw() = 0;
+        virtual void shutDown() = 0;
+    };
+
     enum class Error
     {
         SDL,
@@ -50,6 +60,7 @@ namespace Game
         extern std::map<std::string, SDL_Texture*> textures;
         extern std::map<std::string, SDL_Surface*> surfaces;
         extern std::map<std::string, Mix_Chunk*> sounds;
+        extern std::map<std::string, std::map<int, TTF_Font*>> fonts;
         extern std::default_random_engine engine;
     }
 
@@ -71,6 +82,7 @@ namespace Game
     SDL_Texture* getTexture(const std::string& file_name);
     SDL_Surface* getSurface(const std::string& file_name);
     Mix_Chunk* getSound(const std::string& file_name);
+    TTF_Font* getFont(const std::string& file_name, const int font_size);
 
     int randomInteger(const int from, const int to);
     std::string intToString(const int value);

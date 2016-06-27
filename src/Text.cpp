@@ -8,11 +8,7 @@ void Text::render(const std::string& font_name, const std::string& text, const S
     this->size = size;
     this->width = width;
 
-    font = TTF_OpenFont(font_name.c_str(), this->size);
-    if (font == nullptr)
-    {
-        throw Game::Error::TTF;
-    }
+    font = Game::getFont(font_name, size);
     setString(text);
 
     rect.x = x;
@@ -67,5 +63,4 @@ void Text::draw()
 Text::~Text()
 {
     SDL_DestroyTexture(texture);
-    //TTF_CloseFont(font);
 }
